@@ -1,5 +1,6 @@
 import { Stack, StackProps } from 'aws-cdk-lib'
-import { Function, Runtime, Code } from 'aws-cdk-lib/aws-lambda'
+import { Function, Runtime, Code, Tracing } from 'aws-cdk-lib/aws-lambda'
+import { RestApi } from 'aws-cdk-lib/aws-apigateway'
 import { Construct } from 'constructs'
 
 export class LineBotTsSampleStack extends Stack {
@@ -10,6 +11,14 @@ export class LineBotTsSampleStack extends Stack {
       runtime: Runtime.NODEJS_18_X,
       handler: 'lineEchoBot.handler',
       code: Code.fromAsset('lambda'),
+      tracing: Tracing.ACTIVE,
+    })
+
+    const api = new RestApi(this, 'lineEchoBotApi', {
+      restApiName: 'lineEchoBotApi',
+      deployOptions: {
+        tracingEnabled: true,
+      },
     })
   }
 }
