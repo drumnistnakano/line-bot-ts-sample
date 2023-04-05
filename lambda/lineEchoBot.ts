@@ -1,5 +1,6 @@
 import {
   Client,
+  ClientConfig,
   WebhookRequestBody,
   WebhookEvent,
   MessageAPIResponseBase,
@@ -7,9 +8,9 @@ import {
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda'
 import { isValidateHeaders } from './util/validateRequest'
 
-const config = {
-  channelAccessToken: 'YOUR_CHANNEL_ACCESS_TOKEN',
-  channelSecret: 'YOUR_CHANNEL_SECRET',
+const config: ClientConfig = {
+  channelAccessToken: process.env.CHANNEL_ACCESS_TOKEN!,
+  channelSecret: process.env.CHANNEL_SECRET!,
 }
 
 const client = new Client(config)
@@ -35,7 +36,7 @@ export const handler = async (
     const isValidHeaders = isValidateHeaders({
       headerSignature: event.headers['x-line-signature'],
       requestBody: event.body ?? undefined,
-      channelSecret: config.channelSecret,
+      channelSecret: config.channelSecret ?? undefined,
     })
     if (!isValidHeaders) {
       return {

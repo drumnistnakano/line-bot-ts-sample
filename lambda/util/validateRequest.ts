@@ -3,7 +3,7 @@ import { validateSignature } from '@line/bot-sdk'
 interface RequestType {
   requestBody: string | undefined
   headerSignature: string | undefined
-  channelSecret: string
+  channelSecret: string | undefined
 }
 
 export const isValidateHeaders = ({
@@ -12,11 +12,15 @@ export const isValidateHeaders = ({
   channelSecret,
 }: RequestType): boolean => {
   if (headerSignature == null) {
-    console.info('x-line-signatureが空です')
+    console.error('x-line-signatureが空です')
     return false
   }
   if (requestBody == null) {
-    console.info('リクエストボディが空です')
+    console.error('リクエストボディが空です')
+    return false
+  }
+  if (channelSecret == null) {
+    console.error('チャネルシークレットが空です')
     return false
   }
 
