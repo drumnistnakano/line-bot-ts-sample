@@ -31,7 +31,14 @@ const processWebhookEvent = async (
 export const handler = async (
   event: APIGatewayProxyEvent
 ): Promise<APIGatewayProxyResult> => {
-  console.debug(event)
+  console.log(event)
+  if (event.body == null) {
+    return {
+      statusCode: 200,
+      body: JSON.stringify({}),
+    }
+  }
+
   try {
     const isValidHeaders = isValidateHeaders({
       headerSignature: event.headers['x-line-signature'],
