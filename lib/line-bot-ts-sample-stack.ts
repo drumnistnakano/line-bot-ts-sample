@@ -30,6 +30,6 @@ export class LineBotTsSampleStack extends Stack {
     })
 
     const items = api.root.addResource('items')
-    items.addMethod('GET', new LambdaIntegration(lineEchoBotHandler))
+    items.addMethod('POST', new LambdaIntegration(lineEchoBotHandler))
   }
 }
