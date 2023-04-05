@@ -24,7 +24,7 @@ const processWebhookEvent = async (
 
   return client.replyMessage(event.replyToken, {
     type: 'text',
-    text: event.message.text,
+    text: `今週のオレは、スーパー${event.message.text}だぜぇ`,
   })
 }
 
